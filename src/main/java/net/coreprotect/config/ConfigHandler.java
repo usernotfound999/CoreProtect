@@ -37,72 +37,70 @@ import net.coreprotect.utility.Chat;
 import net.coreprotect.utility.Color;
 import net.coreprotect.utility.SystemUtils;
 import net.coreprotect.utility.VersionUtils;
-import oshi.hardware.CentralProcessor;
 
-public class ConfigHandler extends Queue {
+public  class  ConfigHandler  extends  Queue  {
 
-    public enum CacheType {
-        MATERIALS, BLOCKDATA, ART, ENTITIES, WORLDS
+    public  enum  CacheType  {
+        材料、区块数据、艺术、实体、世界
     }
 
-    public static int SERVER_VERSION = 0;
-    public static final int EDITION_VERSION = 2;
-    public static final String EDITION_BRANCH = VersionUtils.getBranch();
-    public static final String EDITION_NAME = VersionUtils.getPluginName();
-    public static final String COMMUNITY_EDITION = "Community Edition";
-    public static final String JAVA_VERSION = "11.0";
-    public static final String MINECRAFT_VERSION = "1.16";
-    public static final String PATCH_VERSION = "23.1";
-    public static final String LATEST_VERSION = "1.21.11";
-    public static String path = "plugins/CoreProtect/";
-    public static String sqlite = "database.db";
-    public static String host = "127.0.0.1";
-    public static int port = 3306;
-    public static String database = "database";
-    public static String username = "root";
-    public static String password = "";
-    public static String prefix = "co_";
-    public static String prefixConfig = "co_";
-    public static int maximumPoolSize = 10;
+    public  static  int  SERVER_VERSION = 0 ;
+    public  static  final  int  EDITION_VERSION = 2 ;
+    public  static  final  String  EDITION_BRANCH = VersionUtils.getBranch ( ) ;
+    public static final String EDITION_NAME = VersionUtils.getPluginName();static final String EDITION_NAME = VersionUtils.getPluginName();
+    public static final String COMMUNITY_EDITION = "社区版";public static final String COMMUNITY_EDITION = "Community Edition";
+    public static final String JAVA_VERSION = "11.0";public static final String JAVA_VERSION = "11.0";
+    public static final String MINECRAFT_VERSION = "1.16";public static final String MINECRAFT_VERSION = "1.16";
+    public static final String PATCH_VERSION = "23.1";public static final String PATCH_VERSION = "23.1";
+    public static final String LATEST_VERSION = "1.21.11";public static final String LATEST_VERSION = "1.21.11";
+    public static String path = "plugins/CoreProtect/";public static String path = "plugins/CoreProtect/";
+    public static String sqlite = "database.db";public static String sqlite = "database.db";
+    public static String host = "127.0.0.1";public static String host = "127.0.0.1";
+    public static int port = 3306;public static int port = 3306;
+    public static String database = "数据库";public static String database = "database";
+    public static String username = "root";public static String username = "root";
+    public static String password = "";public static String password = "";
+    public static String prefix = "co_";public static String prefix = "co_";
+    public static String prefixConfig = "co_";public static String prefixConfig = "co_";
+    public static int maximumPoolSize = 10;public static int maximumPoolSize = 10;
 
-    public static HikariDataSource hikariDataSource = null;
-    public static final CentralProcessor processorInfo = SystemUtils.getProcessorInfo();
-    public static final boolean isSpigot = VersionUtils.isSpigot();
-    public static final boolean isPaper = VersionUtils.isPaper();
-    public static final boolean isFolia = VersionUtils.isFolia();
-    public static volatile boolean serverRunning = false;
-    public static volatile boolean converterRunning = false;
-    public static volatile boolean purgeRunning = false;
-    public static volatile boolean migrationRunning = false;
-    public static volatile boolean pauseConsumer = false;
-    public static volatile boolean worldeditEnabled = false;
-    public static volatile boolean databaseReachable = true;
-    public static volatile int worldId = 0;
-    public static volatile int materialId = 0;
-    public static volatile int blockdataId = 0;
-    public static volatile int entityId = 0;
-    public static volatile int artId = 0;
+    public static HikariDataSource hikariDataSource = null;public static HikariDataSource hikariDataSource = null;
+    public static final boolean isSpigot = VersionUtils.isSpigot();public static final boolean isSpigot = VersionUtils.isSpigot();
+    public static final boolean isPaper = VersionUtils.isPaper();public static final boolean isPaper = VersionUtils.isPaper();
+    public static final boolean isFolia = VersionUtils.isFolia();public static final boolean isFolia = VersionUtils.isFolia();
+    public static volatile boolean serverRunning = false;public static volatile boolean serverRunning = false;
+    public static volatile boolean converterRunning = false;public static volatile boolean converterRunning = false;
+    public static volatile boolean purgeRunning = false;public static volatile boolean purgeRunning = false;
+    public static volatile boolean migrationRunning = false;public static volatile boolean migrationRunning = false;
+    public static volatile boolean pauseConsumer = false;public static volatile boolean pauseConsumer = false;
+    public static volatile boolean worldeditEnabled = false;public static volatile boolean worldeditEnabled = false;
+    public static volatile boolean databaseReachable = true;public static volatile boolean databaseReachable = true;
+    public static volatile int worldId = 0;public static volatile int worldId = 0;
+    public static volatile int materialId = 0;public static volatile int materialId = 0;
+    public static volatile int blockdataId = 0;public static volatile int blockdataId = 0;
+    public static volatile int entityId = 0;public static volatile int entityId = 0;
+    public static volatile int artId = 0;public static volatile int artId = 0;
 
-    private static <K, V> Map<K, V> syncMap() {
-        return Collections.synchronizedMap(new HashMap<>());
-    }
+    private static <K, V> Map<K, V> syncMap() {private static <K, V> Map<K, V> syncMap() {
+        return Collections.synchronizedMap(new HashMap<>());return Collections.synchronizedMap(new HashMap<>());
+    }}
 
-    public static Map<String, Integer> worlds = syncMap();
-    public static Map<Integer, String> worldsReversed = syncMap();
-    public static Map<String, Integer> materials = syncMap();
-    public static Map<Integer, String> materialsReversed = syncMap();
-    public static Map<String, Integer> blockdata = syncMap();
-    public static Map<Integer, String> blockdataReversed = syncMap();
-    public static Map<String, Integer> entities = syncMap();
-    public static Map<Integer, String> entitiesReversed = syncMap();
-    public static Map<String, Integer> art = syncMap();
-    public static Map<Integer, String> artReversed = syncMap();
-    public static Map<String, int[]> rollbackHash = syncMap();
-    public static Map<String, Boolean> inspecting = syncMap();
-    public static Map<String, Boolean> blacklist = syncMap();
-    public static Map<String, Integer> loggingChest = syncMap();
-    public static Map<String, Integer> loggingItem = syncMap();
-    public static ConcurrentHashMap<String, List<Object>> transactingChest = new ConcurrentHashMap<>();
+    public static Map<String, Integer> worlds = syncMap();public static Map<String, Integer> worlds = syncMap();
+    public static Map<Integer, String> worldsReversed = syncMap();public static Map<Integer, String> worldsReversed = syncMap();
+    public static Map<String, Integer> materials = syncMap();public static Map<String, Integer> materials = syncMap();
+    public static Map<Integer, String> materialsReversed = syncMap();public static Map<Integer, String> materialsReversed = syncMap();
+    public static Map<String, Integer> blockdata = syncMap();public static Map<String, Integer> blockdata = syncMap();
+    public static Map<Integer, String> blockdataReversed = syncMap();public static Map<Integer, String> blockdataReversed = syncMap();
+    public static Map<String, Integer> entities = syncMap();public static Map<String, Integer> entities = syncMap();
+    public static Map<Integer, String> entitiesReversed = syncMap();public static Map<Integer, String> entitiesReversed = syncMap();
+    public static Map<String, Integer> art = syncMap();public static Map<String, Integer> art = syncMap();
+    public static Map<Integer, String> artReversed = syncMap();public static Map<Integer, String> artReversed = syncMap();
+    public static Map<String, int[]> rollbackHash = syncMap();public static Map<String, int[]> rollbackHash = syncMap();
+    public static Map<String, Boolean> inspecting = syncMap();public static Map<String, Boolean> inspecting = syncMap();
+    public static Map<String, Boolean> blacklist = syncMap();public static Map<String, Boolean> blacklist = syncMap();
+    public static Map<String, Integer> loggingChest = syncMap();public static Map<String, Integer> loggingChest = syncMap();
+    public static Map<String, Integer> loggingItem = syncMap();public static Map<String, Integer> loggingItem = syncMap();
+    public static ConcurrentHashMap<String, List<Object>> transactingChest = new ConcurrentHashMap<>();public static ConcurrentHashMap<String, List<Object>> transactingChest = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, List<ItemStack[]>> oldContainer = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, List<ItemStack>> itemsPickup = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, List<ItemStack>> itemsDrop = new ConcurrentHashMap<>();
